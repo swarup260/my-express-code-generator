@@ -1,2 +1,11 @@
 # my-express-code-generator
-Express Code Generator
+
+### new project
+```bash
+   npm start start projectGenerator new
+```
+
+### new project controller
+```bash
+   npm start start projectGenerator controller
+```

@@ -2,10 +2,10 @@
 
 ### new project
 ```bash
-   npm start start projectGenerator new
+   npm start generator new
 ```
 
 ### new project controller
 ```bash
-   npm start start projectGenerator controller
+   npm start generator controller
 ```

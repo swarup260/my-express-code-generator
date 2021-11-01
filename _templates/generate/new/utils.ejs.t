@@ -7,15 +7,18 @@ const moment = require("moment");
 
 /* custom dependencies  */
 const jwt = require('jsonwebtoken');
-const config = require('../config');
+const config = require('../../config');
 const userModel = require('../models/user.model');
 
-exports.getToken = data => jwt.sign({
-      username: data.username,
-      email: data.email
-   }, config.JWT_SECRET_PK, {
-      expiresIn: config.JWT_EXPIRES
-   });
+exports.getToken = async data => {
+    const privateKey = await config.JWT_SECRET_PK()
+    return jwt.sign({
+        username: data.username,
+        email: data.email
+    }, privateKey, {
+        expiresIn: config.JWT_EXPIRES
+    });
+}
 
 exports.userExists = async data => {
     const user = await userModel.findOne({

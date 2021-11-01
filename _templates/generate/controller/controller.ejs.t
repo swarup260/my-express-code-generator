@@ -3,7 +3,7 @@ to: <%= path %>/app/controllers/<%= name %>.controller.js
 ---
 
 const { ObjectID } = require('mongodb');
-const <%= h.capitalize(name) %>Model = require('../models/<%= h.capitalize(name) %>.model');
+const <%= h.capitalize(name) %>Model = require('../models/<%= name %>.model');
 
 exports.create<%= h.capitalize(name) %> = async (request, response) => {
    try {

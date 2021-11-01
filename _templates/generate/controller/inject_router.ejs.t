@@ -6,5 +6,5 @@ before: "Test Routes"
 ---
 
 
-const <%= name %>Routes = require("./api/routes/<%= name %>.routes");
+const <%= name %>Routes = require("./app/routes/<%= name %>.routes");
 app.use("/<%= h.inflection.pluralize(name) %>", <%= name %>Routes);

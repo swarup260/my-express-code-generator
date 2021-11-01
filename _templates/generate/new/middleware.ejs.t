@@ -6,12 +6,13 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const {
     userExists
-} = require('../helpers/function.helper');
+} = require('../utils/util');
 
 module.exports = async (request, response, next) => {
     try {
-        const token = await request.headers.authorization.split(" ")[1]
-        const decoded = jwt.verify(token, config.JWT_SECRET_PUK);
+        const token = await request.headers.authorization.split(" ")[1];
+        const publicKey = await config.JWT_SECRET_PUK()
+        const decoded = jwt.verify(token, publicKey);
         const user = await userExists(decoded);
         request.userData = user;
         next();

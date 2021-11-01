@@ -4,12 +4,12 @@ to: <%= path %>/app/controllers/user.controller.js
 
 
 const bcrypt = require('bcrypt');
-const {ObjectID} = require('mongodb');
-const UserModel = require('../models/User.model');
+const { ObjectID } = require('mongodb');
+const UserModel = require('../models/user.model');
 const {
     getToken
-} = require('../utils/function.helper');
-const config = require('../config');
+} = require('../utils/util');
+const config = require('../../config');
 
 exports.registerUser = async (request, response) => {
     try {
@@ -48,14 +48,14 @@ exports.registerUser = async (request, response) => {
             })
         }
         /* Hash the Password  */
-        requestBody.password = await  bcrypt.hash(requestBody.password , config.SALT_ROUNDS);
+        requestBody.password = await bcrypt.hash(requestBody.password, config.SALT_ROUNDS);
         /* Save Response */
         const newUser = new UserModel({
             ...requestBody
         });
         const result = await newUser.save();
 
-        const token = getToken(result);
+        const token = await getToken(result);
 
         return response.status(200).json({
             status: true,
@@ -102,12 +102,12 @@ exports.login = async (request, response) => {
             })
         }
 
-        const user = await UserModel.findOne({email: requestBody.email}).exec();
+        const user = await UserModel.findOne({ email: requestBody.email }).exec();
         if (!user) {
             return response.status(400).json({
                 status: false,
                 message: 'user not found'
-            }) 
+            })
         }
         
         if(!user.status){
@@ -117,18 +117,18 @@ exports.login = async (request, response) => {
             })
         }
         const userPassword = user.password;
-        const flag = await bcrypt.compare(requestBody.password,userPassword);
-        if(!flag){
+        const flag = await bcrypt.compare(requestBody.password, userPassword);
+        if (!flag) {
             return response.status(400).json({
                 status: false,
                 message: 'invalid password'
-            }) 
+            })
         }
 
         return response.status(200).json({
             status: true,
             message: 'login successfully',
-            token: getToken(user)
+            token: await getToken(user)
         })
         
     } catch (error) {
@@ -190,14 +190,14 @@ exports.updateUser = async (request, response) => {
 
         if (requestBody.update.password) {
             /* Hash the Password  */
-            updateObject.password = await  bcrypt.hash(requestBody.update.password, config.SALT_ROUNDS);
+            updateObject.password = await bcrypt.hash(requestBody.update.password, config.SALT_ROUNDS);
         }
 
-        const result = await UserModel.findByIdAndUpdate(userData._id , updateObject , { new : true }).exec();
+        const result = await UserModel.findByIdAndUpdate(userData._id, updateObject, { new: true }).exec();
         return response.status(200).json({
             status: true,
             message: "user data updated successfully",
-            data : result
+            data: result
         })
     } catch (error) {
         response.status(400).json({
@@ -215,7 +215,7 @@ exports.getUser = async (request, response) => {
             return response.status(200).json({
                 status: 'true',
                 message: 'user',
-                data : user
+                data: user
             })
         }
     } catch (error) {

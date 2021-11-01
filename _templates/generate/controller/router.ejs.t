@@ -5,7 +5,7 @@ to: <%= path %>/app/routes/<%= name %>.routes.js
 const Express = require('express');
 const router = Express.Router();
 const <%= name %>Controller = require('../controllers/<%= name %>.controller');
-const checkAuth = require('../middlewares/CheckAuth.middleware');
+const checkAuth = require('../middleware/CheckAuth.middleware');
 
 router.post('/', <%= name %>Controller.create<%= h.capitalize(name) %>);
 router.patch('/',<%= name %>Controller.update<%= h.capitalize(name) %>);

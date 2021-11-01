@@ -1,12 +1,11 @@
 ---
 to: <%= path %>/index.js
 ---
-
 /* Include Dependencies */
 const Express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const config = require("./app/config");
+const config = require("./config");
 const cors = require("cors");
 /* Express App */
 const app = Express();
@@ -16,7 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 /* Routers */
-const userRoutes = require("./api/routes/User.routes");
+const userRoutes = require("./app/routes/user.routes");
 app.use("/users", userRoutes);
 
 /* Test Routes */
@@ -30,7 +29,7 @@ app.get(
 );
 
 /* Run the Express */
-http.listen(config.PORT, () =>
+app.listen(config.PORT, () =>
   console.log(`Server Running At PORT ${config.PORT} `)
 );
 

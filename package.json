@@ -1,15 +1,29 @@
 {
-  "name": "generator_code",
+  "name": "project_scaffold_generator",
   "version": "1.0.0",
   "description": "",
   "main": "runner.js",
+  "bin": {
+    "scaffold": "bin/scaffold"
+  },
   "scripts": {
     "start": "node runner.js"
   },
-  "keywords": [],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "scaffold",
+    "project scaffolding"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hygen": "^6.1.0"
+    "arg": "^5.0.1",
+    "commander": "^8.3.0",
+    "esm": "^3.2.25",
+    "hygen": "^6.1.0",
+    "inquirer": "^8.2.0"
   }
 }

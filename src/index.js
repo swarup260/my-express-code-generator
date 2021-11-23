@@ -1,7 +1,10 @@
 import { Command } from 'commander/esm.mjs';
 import inquirer from 'inquirer';
 import Listr from 'listr';
-import ora from 'ora';
+import boxen from 'boxen';
+import chalk from 'chalk'
+import { buildTemplate } from './processes'
+import path from 'path'
 
 function parseArgumentsIntoOptions(rawArgs) {
     const program = new Command();
@@ -28,32 +31,40 @@ async function promptForMissingOptions(rawArgs) {
 }
 
 async function taskRunner(options) {
-
-    const spinner = ora('').start();
-
+    const fullPathName = new URL(import.meta.url).pathname;
+    const templateDir = path.resolve(
+      fullPathName.substr(fullPathName.indexOf('/')),
+      '../../templates',
+      ''
+    );
+    console.log(templateDir);
     const tasks = new Listr([
+        // {
+        //     title: 'Templates Generating',
+        //     task: () => buildTemplate(['generate', 'controller', '--name', 'user', '--path'])
+        // },
         {
-            title: 'Success',
-            task: () => {
-                setTimeout(() => {
-                    spinner.color = 'yellow';
-                    spinner.stop()
-                }, 1000);
-
-            }
+            title: 'JWT Token Generating',
+            skip: () => options.jwtType != 'secret',
+            task: () => 'Success'
         },
         {
-            title: 'Failure',
+            title: 'Git Initailization',
             task: () => 'Failure'
-        }
+        },
+        {
+            title: 'Package Installation',
+            task: () => 'Failure'
+        },
     ]);
 
-    return await tasks.run()
+    await tasks.run()
+    console.log(boxen(chalk.green('npm run dev'), { padding: 1, margin: 1, borderStyle: 'double' }));
 }
+
 export async function cli(options) {
     let parseOptions = parseArgumentsIntoOptions(options)
     let promptgOptions = await promptForMissingOptions(options)
     console.log({ ...parseOptions, ...promptgOptions })
-    taskRunner({ ...parseOptions, ...promptgOptions })
-
+    await taskRunner({ ...parseOptions, ...promptgOptions })
 }

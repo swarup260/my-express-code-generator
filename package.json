@@ -1,15 +1,45 @@
 {
-  "name": "generator_code",
+  "name": "project_scaffold_generator",
   "version": "1.0.0",
   "description": "",
   "main": "runner.js",
-  "scripts": {
-    "start": "node runner.js"
+  "bin": {
+    "scaffold": "bin/scaffold"
   },
-  "keywords": [],
+  "scripts": {
+    "start": "node runner.js",
+    "lint": "eslint --fix-dry-run ."
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "scaffold",
+    "project scaffolding"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hygen": "^6.1.0"
+    "arg": "^5.0.1",
+    "boxen": "^5.1.2",
+    "commander": "^8.3.0",
+    "ejs": "^3.1.6",
+    "esm": "^3.2.25",
+    "execa": "^5.1.1",
+    "gitignore": "^0.7.0",
+    "hygen": "^6.1.0",
+    "inquirer": "^8.2.0",
+    "listr": "^0.14.3",
+    "ncp": "^2.0.0",
+    "ora": "^5.4.1",
+    "pkg-install": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1"
   }
 }

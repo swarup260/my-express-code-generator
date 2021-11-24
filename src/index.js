@@ -21,8 +21,14 @@ function parseArgumentsIntoOptions (rawArgs) {
     .version('0.0.1', '-v, --version', 'output the current version')
 
   program.parse(rawArgs)
+  const parseOptions = program.opts()
 
-  return program.opts()
+  if (parseOptions.projectName === undefined && parseOptions.controllerName === undefined) {
+    console.log(boxen(chalk.redBright('-p <project-name> or -c <controller-name> argument missing'), { padding: 1, margin: 1, borderStyle: 'double' }))
+    process.exit()
+  }
+
+  return parseOptions
 }
 
 /**
@@ -120,7 +126,7 @@ async function taskRunner (options) {
     },
     {
       title: 'Git Initailization',
-      task: async () => await gitInit(),
+      task: async () => await gitInit(options),
       enabled: () => options.git
     },
     {
@@ -141,7 +147,12 @@ async function taskRunner (options) {
   ])
 
   await tasks.run()
-  console.log(boxen(chalk.green('npm run dev'), { padding: 1, margin: 1, borderStyle: 'double' }))
+  let executeCommandStr = 'npm run dev'
+  if (options.docker === true) {
+    executeCommandStr = 'docker-compose -f  up --build -d && ' + executeCommandStr
+  }
+
+  console.log(boxen(chalk.green(executeCommandStr), { padding: 1, margin: 1, borderStyle: 'double' }))
 }
 
 /**

@@ -1,5 +1,5 @@
 ---
-to: <%= path %>/app/routes/user.route.js
+to: <%= path %>/app/routes/user.routes.js
 ---
 
 const Express = require('express');

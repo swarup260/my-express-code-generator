@@ -3,7 +3,7 @@ to: <%= path %>/app/middleware/checkAuth.middleware.js
 ---
 
 const jwt = require('jsonwebtoken');
-const config = require('../config');
+const config = require('../../config');
 const {
     userExists
 } = require('../utils/util');
